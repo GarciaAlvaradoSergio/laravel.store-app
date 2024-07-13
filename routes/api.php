@@ -9,6 +9,13 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::apiResource('categories', CategoryController::class);
+Route::prefix('categories')->group(function () {
+    Route::apiResource('/', CategoryController::class);
+    Route::get('search', [CategoryController::class, 'search'])->name('search');
+});
 
-Route::apiResource('products', ProductController::class);
+Route::prefix('products')->group(function (){
+    Route::apiResource('/', ProductController::class);
+    Route::get('search', [ProductController::class, 'search'])->name('search');
+
+});
